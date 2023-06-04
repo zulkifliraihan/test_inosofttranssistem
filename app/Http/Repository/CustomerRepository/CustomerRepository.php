@@ -28,7 +28,6 @@ class CustomerRepository implements CustomerInterface {
 
         return $customer;
 
-
     }
 
     public function detail($id): ?object

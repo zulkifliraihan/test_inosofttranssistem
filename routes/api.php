@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\KendaraanController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StokController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,13 @@ Route::prefix('customer')->group(function () {
     Route::get('/{id}', [CustomerController::class, 'detail']);
     Route::put('/{id}', [CustomerController::class, 'update']);
     Route::delete('/{id}', [CustomerController::class, 'delete']);
+});
+
+Route::prefix('penjualan')->group(function () {
+    Route::get('/', [PenjualanController::class, 'index']);
+    Route::get('/laporan', [PenjualanController::class, 'laporan']);
+    Route::post('/', [PenjualanController::class, 'create']);
+    Route::get('/{id}', [PenjualanController::class, 'detail']);
+    Route::put('/{id}', [PenjualanController::class, 'update']);
+    Route::delete('/{id}', [PenjualanController::class, 'delete']);
 });

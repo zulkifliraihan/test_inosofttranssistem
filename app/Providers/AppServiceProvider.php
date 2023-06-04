@@ -6,6 +6,8 @@ use App\Http\Repository\CustomerRepository\CustomerInterface;
 use App\Http\Repository\CustomerRepository\CustomerRepository;
 use App\Http\Repository\KendaraanRepository\KendaraanInterface;
 use App\Http\Repository\KendaraanRepository\KendaraanRepository;
+use App\Http\Repository\PenjualanRepository\PenjualanInterface;
+use App\Http\Repository\PenjualanRepository\PenjualanRepository;
 use App\Http\Repository\StokRepository\StokInterface;
 use App\Http\Repository\StokRepository\StokRepository;
 use App\Models\Mobil;
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(KendaraanInterface::class, KendaraanRepository::class);
         $this->app->bind(StokInterface::class, StokRepository::class);
         $this->app->bind(CustomerInterface::class, CustomerRepository::class);
+        $this->app->bind(PenjualanInterface::class, PenjualanRepository::class);
     }
 
     /**
