@@ -65,7 +65,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A kendaraan feature test create.
+     * A kendaraan feature test detail.
      *
      * @return void
      */
@@ -85,7 +85,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A kendaraan feature test create.
+     * A kendaraan feature test update.
      *
      * @return void
      */
@@ -111,7 +111,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A kendaraan feature test create.
+     * A kendaraan feature test delete.
      *
      * @return void
      */
@@ -149,7 +149,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A customer feature test get all.
+     * A customer feature test create.
      *
      * @return void
      */
@@ -177,7 +177,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A customer feature test get all.
+     * A customer feature test detail.
      *
      * @return void
      */
@@ -198,7 +198,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A customer feature test get all.
+     * A customer feature test update.
      *
      * @return void
      */
@@ -224,7 +224,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A customer feature test get all.
+     * A customer feature test delete.
      *
      * @return void
      */
@@ -262,7 +262,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A penjualan feature test get all.
+     * A penjualan feature test create.
      *
      * @return void
      */
@@ -296,7 +296,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A penjualan feature test get all.
+     * A penjualan feature test detail.
      *
      * @return void
      */
@@ -317,7 +317,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A penjualan feature test get all.
+     * A penjualan feature test update.
      *
      * @return void
      */
@@ -341,7 +341,7 @@ class AllTest extends TestCase
     }
 
     /**
-     * A penjualan feature test get all.
+     * A penjualan feature test delete.
      *
      * @return void
      */
@@ -359,4 +359,24 @@ class AllTest extends TestCase
         $this->assertArrayHasKey('message', $responseData);
         $this->assertArrayHasKey('data', $responseData);
     }
+
+    /**
+     * A penjualan feature test laporan.
+     *
+     * @return void
+     */
+    public function test_LaporanPenjualan()
+    {
+        $tahun = Carbon::now()->format('Y');
+        $response = $this->get('/api/penjualan/laporan' . "?tahun={$tahun}");
+
+        $response->assertStatus(200);
+        $responseData = $response->json();
+
+        $this->assertArrayHasKey('response_code', $responseData);
+        $this->assertArrayHasKey('response_status', $responseData);
+        $this->assertArrayHasKey('message', $responseData);
+        $this->assertArrayHasKey('data', $responseData);
+    }
+
 }

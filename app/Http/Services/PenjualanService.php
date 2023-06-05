@@ -151,6 +151,10 @@ class PenjualanService {
             $laporan->where('kendaraan_id', $data['kendaraan']);
         }
 
+        if (array_key_exists("customer", $data) ) {
+            $laporan->where('customer_id', $data['customer']);
+        }
+
         if (array_key_exists("tahun", $data)) {
             $tahun = (int) $data['tahun'];
 
