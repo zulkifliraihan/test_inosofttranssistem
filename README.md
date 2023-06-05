@@ -25,6 +25,7 @@
     - DB_USERNAME (Username Credential)
     - DB_PASSWORD (Password Credential)
 - Run "php artisan migrate --seed" (For migrate database and seeder)
+- Run "php artisan test" (For running unit test)
 
 ## In Local
 - php artisan serve
