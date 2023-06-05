@@ -53,8 +53,9 @@ trait ReturnResponser
             $code = 200;
         }
         else {
-            $message = "Error! Hubungi Admin!";
-            $code = 400;
+            $response_status = 'successfully-' . $response;
+            $message = $message;
+            $code = 200;
         }
 
         $return = [
@@ -88,7 +89,7 @@ trait ReturnResponser
         if (!$message) {
             $message = 'Error! The request not expected!';
         }
-        
+
         return response()->json([
             'response_code' => $code,
             'response_status' => 'failed-validation',
@@ -102,12 +103,15 @@ trait ReturnResponser
      *
      * @return \Illuminate\Http\JsonResponse
      */
-	protected function errorServer($errors, int $code = 400) : JsonResponse
+	protected function errorServer($errors, int $code = 400, $message = null) : JsonResponse
 	{
+        if (!$message) {
+            $message = "Internal Server Error!";
+        }
         return response()->json([
             'response_code' => $code,
             'response_status' => 'failed-server',
-            'message' => "Internal Server Error!",
+            'message' => $message,
             'errors' => $errors
         ], $code);
 	}

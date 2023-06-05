@@ -10,6 +10,34 @@ use Tests\TestCase;
 
 class AllTest extends TestCase
 {
+
+    /**
+     * A auth feature test login.
+     *
+     * @return void
+     */
+    public function test_AuthLogin()
+    {
+        $data = [
+            "email" => "zuran2907@gmail.com",
+            "password" => "123123123"
+        ];
+
+        $response = $this->post('/api/auth/login', $data);
+
+        $response->assertStatus(201);
+        $responseData = $response->json();
+
+        $this->assertArrayHasKey('response_code', $responseData);
+        $this->assertArrayHasKey('response_status', $responseData);
+        $this->assertArrayHasKey('message', $responseData);
+        $this->assertArrayHasKey('data', $responseData);
+
+        $token = $responseData['data']['authorization']['token'];
+
+        return $token;
+    }
+
     /**
      * A kendaraan feature test get all.
      *
@@ -17,7 +45,11 @@ class AllTest extends TestCase
      */
     public function test_GetAllKendaraan()
     {
-        $response = $this->get('/api/kendaraan');
+        $token = $this->test_AuthLogin();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/kendaraan');
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -35,6 +67,7 @@ class AllTest extends TestCase
      */
     public function test_CreateKendaraan()
     {
+        $token = $this->test_AuthLogin();
         $data = [
             "tahun_keluaran"=> "2023",
             "warna"=> "Hitam",
@@ -48,7 +81,9 @@ class AllTest extends TestCase
             "stok" => 100
         ];
 
-        $response = $this->post('/api/kendaraan', $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/kendaraan', $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -71,9 +106,12 @@ class AllTest extends TestCase
      */
     public function test_DetailKendaraan()
     {
+        $token = $this->test_AuthLogin();
         $kendaraan = $this->test_CreateKendaraan();
 
-        $response = $this->get('/api/kendaraan/' . $kendaraan['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/kendaraan/' . $kendaraan['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -91,6 +129,7 @@ class AllTest extends TestCase
      */
     public function test_UpdateKendaraan()
     {
+        $token = $this->test_AuthLogin();
         $kendaraan = $this->test_CreateKendaraan();
 
         $data = [
@@ -99,7 +138,9 @@ class AllTest extends TestCase
             "harga"=> 70000000,
         ];
 
-        $response = $this->put('/api/kendaraan/' . $kendaraan['_id'], $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->put('/api/kendaraan/' . $kendaraan['_id'], $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -117,9 +158,12 @@ class AllTest extends TestCase
      */
     public function test_DeleteKendaraan()
     {
+        $token = $this->test_AuthLogin();
         $kendaraan = $this->test_CreateKendaraan();
 
-        $response = $this->delete('/api/kendaraan/' . $kendaraan['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete('/api/kendaraan/' . $kendaraan['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -137,7 +181,10 @@ class AllTest extends TestCase
      */
     public function test_GetAllCustomer()
     {
-        $response = $this->get('/api/customer');
+        $token = $this->test_AuthLogin();
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/customer');
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -155,13 +202,16 @@ class AllTest extends TestCase
      */
     public function test_CreateCustomer()
     {
+        $token = $this->test_AuthLogin();
         $data = [
             "name" => "Fadhil D Maulana",
             "address" => "Jakarta",
             "phone" => "6285155030102"
         ];
 
-        $response = $this->post('/api/customer', $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/customer', $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -183,10 +233,13 @@ class AllTest extends TestCase
      */
     public function test_DetailCustomer()
     {
+        $token = $this->test_AuthLogin();
 
         $customer = $this->test_CreateCustomer();
 
-        $response = $this->get('/api/customer/' . $customer['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/customer/' . $customer['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -204,6 +257,7 @@ class AllTest extends TestCase
      */
     public function test_UpdateCustomer()
     {
+        $token = $this->test_AuthLogin();
         $customer = $this->test_CreateCustomer();
 
         $data = [
@@ -212,7 +266,9 @@ class AllTest extends TestCase
             "phone" => "6285155030102"
         ];
 
-        $response = $this->put('/api/customer/' . $customer['_id'], $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->put('/api/customer/' . $customer['_id'], $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -230,9 +286,12 @@ class AllTest extends TestCase
      */
     public function test_DeleteCustomer()
     {
+        $token = $this->test_AuthLogin();
         $customer = $this->test_CreateCustomer();
 
-        $response = $this->delete('/api/customer/' . $customer['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete('/api/customer/' . $customer['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -250,7 +309,10 @@ class AllTest extends TestCase
      */
     public function test_GetAllPenjualan()
     {
-        $response = $this->get('/api/penjualan');
+        $token = $this->test_AuthLogin();
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/penjualan');
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -268,6 +330,7 @@ class AllTest extends TestCase
      */
     public function test_CreatePenjualan()
     {
+        $token = $this->test_AuthLogin();
         $kendaraan = $this->test_CreateKendaraan();
         $customer = $this->test_CreateCustomer();
         $tipePembayaran = Generate::tipePembayaran();
@@ -280,7 +343,9 @@ class AllTest extends TestCase
             "tipe_pembayaran" => $tipePembayaran
         ];
 
-        $response = $this->post('/api/penjualan', $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/penjualan', $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -302,10 +367,13 @@ class AllTest extends TestCase
      */
     public function test_DetailPenjualan()
     {
+        $token = $this->test_AuthLogin();
 
         $penjualan = $this->test_CreatePenjualan();
 
-        $response = $this->get('/api/penjualan/' . $penjualan['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/penjualan/' . $penjualan['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -323,13 +391,16 @@ class AllTest extends TestCase
      */
     public function test_UpdatePenjualan()
     {
+        $token = $this->test_AuthLogin();
         $penjualan = $this->test_CreatePenjualan();
 
         $data = [
             "jumlah_terjual" => 1,
         ];
 
-        $response = $this->put('/api/penjualan/' . $penjualan['_id'], $data);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->put('/api/penjualan/' . $penjualan['_id'], $data);
 
         $response->assertStatus(201);
         $responseData = $response->json();
@@ -347,9 +418,12 @@ class AllTest extends TestCase
      */
     public function test_DeletePenjualan()
     {
+        $token = $this->test_AuthLogin();
         $penjualan = $this->test_CreatePenjualan();
 
-        $response = $this->delete('/api/penjualan/' . $penjualan['_id']);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete('/api/penjualan/' . $penjualan['_id']);
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -367,8 +441,11 @@ class AllTest extends TestCase
      */
     public function test_LaporanPenjualan()
     {
+        $token = $this->test_AuthLogin();
         $tahun = Carbon::now()->format('Y');
-        $response = $this->get('/api/penjualan/laporan' . "?tahun={$tahun}");
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/penjualan/laporan' . "?tahun={$tahun}");
 
         $response->assertStatus(200);
         $responseData = $response->json();

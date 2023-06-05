@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Repository\AuthRepository\AuthInterface;
+use App\Http\Repository\AuthRepository\AuthRepository;
 use App\Http\Repository\CustomerRepository\CustomerInterface;
 use App\Http\Repository\CustomerRepository\CustomerRepository;
 use App\Http\Repository\KendaraanRepository\KendaraanInterface;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(StokInterface::class, StokRepository::class);
         $this->app->bind(CustomerInterface::class, CustomerRepository::class);
         $this->app->bind(PenjualanInterface::class, PenjualanRepository::class);
+        $this->app->bind(AuthInterface::class, AuthRepository::class);
     }
 
     /**
